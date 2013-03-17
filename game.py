@@ -3,6 +3,9 @@ sys.path.append('ext')
 sys.path.append('ext/impl')
 import IMediaLayer
 import PyGameMediaLayer
+import pygame
+from pygame.locals import *
+from PyGameMediaLayer import PyGameMediaLayer
 
 MediaLayer = PyGameMediaLayer()
 
