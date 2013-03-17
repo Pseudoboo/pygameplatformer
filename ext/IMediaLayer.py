@@ -1,11 +1,10 @@
-import abc
-
 class IMediaLayer(object):
 	"""
 	This is an abstraction layer for the media layer used.
 	In case I find pygame unsuitable, I want a way to make it easier to remove it from the code.
 
 	"""
+
 
 	def initialize(self):
 		"""
@@ -40,6 +39,12 @@ class IMediaLayer(object):
 	def getEvents(self) :
 		"""
 		Gets any system events
+		"""
+		raise NotImplementedError
+
+	def getDt(self) :
+		"""
+		Gets the difference in time between two different frames.
 		"""
 		raise NotImplementedError
 

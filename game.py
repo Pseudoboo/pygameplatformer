@@ -1,13 +1,11 @@
 import sys
 sys.path.append('ext')
-sys.path.append('ext/impl')
-import IMediaLayer
-import PyGameMediaLayer
+
+import extfactory
 import pygame
 from pygame.locals import *
-from PyGameMediaLayer import PyGameMediaLayer
 
-MediaLayer = PyGameMediaLayer()
+MediaLayer = extfactory.getMediaLayer()
 
 
 def main() :
@@ -42,9 +40,12 @@ def runGame() :
 	print("Start runGame")
 	quit = False
 	while not quit: # main game loop
+		dt = MediaLayer.getDt()
 		for event in MediaLayer.getEvents():
 			if event.type == QUIT:
-				quit = True				
+				quit = True	
+			else:
+				print(event)
 		MediaLayer.updateDisplay()
 	print("End runGame")
 	

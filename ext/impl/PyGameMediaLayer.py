@@ -1,14 +1,30 @@
-import sys
+import sys, pygame
 sys.path.append('../')
-import IMediaLayer
-import pygame, sys
+import imedialayer
 from pygame.locals import *
-from IMediaLayer import IMediaLayer
+from imedialayer import IMediaLayer
 
-class PyGameMediaLayer(IMediaLayer):
+class MediaLayer(IMediaLayer):
 	"""
 	Pygame implementation of IMediaLayer
 	"""
+
+	"""	This clock is used for time based calculations.	"""
+	_clock = pygame.time.Clock()
+	
+
+	"""Singleton instance"""
+	_instance = None
+
+	def __new__(cls, *args, **kwargs):
+		"""
+		This override insures that this class is a Singleton.
+		"""
+		if not cls._instance:
+			cls._instance = super(MediaLayer, cls).__new__(cls, *args, **kwargs)
+		return cls._instance
+	
+
 
 	def initialize(self):
 		"""
@@ -44,7 +60,16 @@ class PyGameMediaLayer(IMediaLayer):
 		"""
 		Gets any system events
 		"""
-		return pygame.event.get()
+		allEvents = pygame.event.get()
+		#Filtering out key events because I want them taken care of in pygameinput.
+		keyEvents = filter(lambda event: event.type == KEYUP or event.type == KEYDOWN, allEvents)
+		events = filter(lambda event: event.type != KEYUP and event.type != KEYDOWN, allEvents)
+		#Need to send any input to The input interface.
+		return events
 
-
+	def getDt(self) :
+		"""
+		Gets the difference in time between two different frames.
+		"""
+		return self._clock.tick(60)
 		
