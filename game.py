@@ -1,5 +1,11 @@
-import pygame, sys
-from pygame.locals import *
+import sys
+sys.path.append('ext')
+sys.path.append('ext/impl')
+import IMediaLayer
+import PyGameMediaLayer
+
+MediaLayer = PyGameMediaLayer()
+
 
 def main() :
 	"""
@@ -11,18 +17,19 @@ def main() :
 	initialization()
 	#Main Game Loop
 	runGame()
-
+	#End
 	print ("End main")
-	pygame.quit()
+	MediaLayer.quit()
+	
 
 def initialization() :
 	"""
 	This method initializes the game, loading configurations, reading data, so on and so forth.
 	"""
 	print("Start initialization")
-	pygame.init()
-	DISPLAYSURF = pygame.display.set_mode((800, 600))
-	pygame.display.set_caption('Window Title!')
+	MediaLayer.initialize()
+	MediaLayer.setResolution(800, 600)
+	MediaLayer.setWindowTitle('Window Title!')
 	print("End initialization")
 	
 def runGame() :
@@ -32,10 +39,10 @@ def runGame() :
 	print("Start runGame")
 	quit = False
 	while not quit: # main game loop
-		for event in pygame.event.get():
+		for event in MediaLayer.getEvents():
 			if event.type == QUIT:
 				quit = True				
-		pygame.display.update()	
+		MediaLayer.updateDisplay()
 	print("End runGame")
 	
 			
