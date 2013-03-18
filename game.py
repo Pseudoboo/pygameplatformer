@@ -6,6 +6,7 @@ import pygame
 from pygame.locals import *
 
 MediaLayer = extfactory.getMediaLayer()
+Input = extfactory.getInput()
 
 
 def main() :
@@ -41,6 +42,7 @@ def runGame() :
 	quit = False
 	while not quit: # main game loop
 		dt = MediaLayer.getDt()
+
 		for event in MediaLayer.getEvents():
 			if event.type == QUIT:
 				quit = True	

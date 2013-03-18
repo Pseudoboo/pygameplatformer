@@ -3,9 +3,24 @@ sys.path.append('../')
 import iinput
 import pygame, sys
 from pygame.locals import *
-from iinput import IInput
+from iinput import IInput, KeyState
 
 
+"""
+A List of the type of events that the media layer cares about.
+This is a constant for the get events method.
+"""
+_events = [
+	KEYDOWN, 
+	KEYUP,
+	MOUSEMOTION,
+	MOUSEBUTTONUP,
+	MOUSEBUTTONDOWN,
+	JOYAXISMOTION,
+	JOYBALLMOTION,
+	JOYHATMOTION,
+	JOYBUTTONUP,
+	JOYBUTTONDOWN]
 
 class Input(IInput):
 	"""
@@ -23,8 +38,17 @@ class Input(IInput):
 			cls._instance = super(Input, cls).__new__(	cls, *args, **kwargs)
 		return cls._instance
 
-	def getKeysPressed(self):
+	def getChangedKeys(self):
 		"""
-		This sets up any basic initialization that the media layer requires.
+		Gets a list of newly depressed keys.
 		"""
-		raise NotImplementedError
+		events = pygame.event.get(_events)
+		returnValue = list()
+
+		keyUpEvents = filter(lambda event: event.type == KEYUP, events)
+		returnValue.extend(map(lambda event: (KeyState.Up, pygame.key.name(event.key)), keyUpEvents))
+
+		keyDownEvents = filter(lambda event: event.type == KEYDOWN, events)
+		returnValue.extend(map(lambda event: (KeyState.Down, pygame.key.name(event.key)), keyDownEvents))
+
+		return returnValue

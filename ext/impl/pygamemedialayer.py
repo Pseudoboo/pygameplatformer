@@ -4,6 +4,13 @@ import imedialayer
 from pygame.locals import *
 from imedialayer import IMediaLayer
 
+
+"""
+A List of the type of events that the media layer cares about.
+This is a constant for the get events method.
+"""
+_events = [QUIT, ACTIVEEVENT, VIDEORESIZE, VIDEOEXPOSE, USEREVENT]
+
 class MediaLayer(IMediaLayer):
 	"""
 	Pygame implementation of IMediaLayer
@@ -60,12 +67,7 @@ class MediaLayer(IMediaLayer):
 		"""
 		Gets any system events
 		"""
-		allEvents = pygame.event.get()
-		#Filtering out key events because I want them taken care of in pygameinput.
-		keyEvents = filter(lambda event: event.type == KEYUP or event.type == KEYDOWN, allEvents)
-		events = filter(lambda event: event.type != KEYUP and event.type != KEYDOWN, allEvents)
-		#Need to send any input to The input interface.
-		return events
+		return pygame.event.get(_events)
 
 	def getDt(self) :
 		"""
